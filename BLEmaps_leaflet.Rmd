@@ -12,9 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, echo=F, message=F, warnings=F}
 library(leaflet)
 library(tidyverse)
-library(sf)
-library(ggmap)
-library(ggsn)
 ```
 
 ```{r load,echo=F, message=F, warnings=F}
@@ -175,11 +172,62 @@ Stations %>%
 
 ```
 
+#Lagoons
+
+```{r nodes, echo=F, message=F, warnings=F, fig.height=5, fig.width=10}
+
+Nodes <- read_csv("BLE_LTER_Nodes.csv")
+
+labelleft <- labelOptions(noHide = T,
+                          direction = "bottom",
+                          offset=c(0,-5),
+                          opacity=1,
+                          style = list(
+                            "font-style" = "bold",
+                            "font-size" = "20px",
+                            "color"="white",
+                            "background"="transparent",
+                            "border"="none",
+                            "box-shadow"="none"))
+labelright <- labelOptions(noHide = T,
+                           direction = "top",
+                           offset=c(0,-5),
+                           opacity=1,
+                           style = list(
+                             "font-style" = "bold",
+                             "font-size" = "20px",
+                             "color"="white",
+                             "background"="transparent",
+                             "border"="none",
+                             "box-shadow"="none"))
+
+nodesa <- Nodes[c(1,3,5),]
+nodesb <- Nodes[c(2,4,6),]
+
+leaflet(nodesa) %>% 
+  addProviderTiles(providers$Esri.WorldImagery) %>% 
+  addCircleMarkers(~ Longitude, ~ Latitude, 
+                   radius=0,
+                   stroke = FALSE, 
+                   fillOpacity = 0.5,
+                   label= ~ Lagoon,
+                   labelOptions = labelleft) %>% 
+  addCircleMarkers(data=nodesb, ~ Longitude, ~ Latitude, 
+                   radius=0,
+                   stroke = FALSE, 
+                   fillOpacity = 0.5,
+                   label= ~ Lagoon,
+                   labelOptions = labelright) %>%
+  addScaleBar() %>% 
+  addMiniMap(zoomLevelFixed = 2, 
+             centerFixed=c(65, -150))
+
+```
+
 
 #Blank, zoomable map for labelling in PP, Inkscape etc: SQUARE
 ```{r blankmap, echo=F, message=F, warnings=F, fig.height=6, fig.width=6}
 
-Nodes <- read_csv("BLE_LTER_Nodes.csv")
   
 Nodes %>% leaflet() %>% 
   addProviderTiles(providers$Esri.WorldImagery) %>% 
@@ -208,32 +256,4 @@ Nodes %>% leaflet() %>%
 
 ```
 
-#Primary only
-##(zoom in and screenshot for node-based maps)
-
-```{r nodes, echo=F, message=F, warnings=F, fig.height=5, fig.width=10}
-Nodes %>% 
-  leaflet() %>% 
-  addProviderTiles(providers$Esri.WorldImagery) %>% 
-  addCircleMarkers(~ Longitude, ~ Latitude, 
-                   radius=0,
-                   stroke = FALSE, 
-                   fillOpacity = 0.5,
-                   label= ~Node,
-                   labelOptions = labelOptions(noHide = T,
-                                               direction = 'right',
-                                               offset=c(0,-5),
-                                              opacity=1,
-                                               style = list(
-                                                 "font-style" = "bold",
-                                                 "font-size" = "20px",
-                                                 "color"="white",
-                                                 "background"="transparent",
-                                                 "border"="none",
-                                                 "box-shadow"="none"))) %>% 
-  addScaleBar() %>% 
-  addMiniMap(zoomLevelFixed = 2, 
-             centerFixed=c(65, -150))
-
-```
 
