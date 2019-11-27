@@ -26,3 +26,5 @@ vignettes/*.pdf
 rsconnect/
 .Rproj.user
 BLE_LTER_Nodes.csv
+BLE-maps.Rproj
+BLE_LTER_CP_Stations.csv
