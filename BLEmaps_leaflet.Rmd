@@ -50,8 +50,8 @@ Stations %>% leaflet() %>%
                                                  "background"="transparent",
                                                  "border"="none",
                                                  "box-shadow"="none"))) %>% 
-  addScaleBar() %>% 
   addLegend(pal = pal, values = ~Type, opacity = 1, title="Station type") %>% 
+  addScaleBar() %>% 
   addMiniMap(zoomLevelFixed = 2, 
              centerFixed=c(65, -150))
 
@@ -103,8 +103,8 @@ Stations %>%
                                                  "background"="transparent",
                                                  "border"="none",
                                                  "box-shadow"="none"))) %>% 
-  addScaleBar() %>% 
   addLegend(pal = pal, values = ~Type, opacity = 1, title="Station type") %>% 
+  addScaleBar() %>% 
   addMiniMap(zoomLevelFixed = 2, 
              centerFixed=c(65, -150))
 
@@ -166,6 +166,7 @@ Stations %>%
                                                  "background"="transparent",
                                                  "border"="none",
                                                  "box-shadow"="none"))) %>% 
+  addLegend(pal = pal, values = ~Type, opacity = 1, title="Station type") %>% 
   addScaleBar() %>% 
   addMiniMap(zoomLevelFixed = 2, 
              centerFixed=c(65, -150))
