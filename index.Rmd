@@ -1,0 +1,12 @@
+---
+title: "index"
+author: "Christina Bonsell"
+date: "November 27, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#landing
