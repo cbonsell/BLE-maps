@@ -1,0 +1,165 @@
+---
+title: "BLE LTER Stations"
+author: "Christina Bonsell"
+date: "November 26, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=F, message=F, warnings=F}
+library(leaflet)
+library(tidyverse)
+library(sf)
+library(ggmap)
+library(ggsn)
+```
+
+```{r load,echo=F, message=F, warnings=F}
+Stations <- read_csv("BLE_LTER_CP_Stations.csv", 
+                     col_types=cols(
+  StationId = col_character(),
+  StationName = col_character(),
+  Latitude = col_double(),
+  Longitude = col_double(),
+  Habitat = col_character(),
+  Type = col_factor()
+)) %>% 
+  filter(Type!="ocean")
+
+pal <- colorFactor(c("yellow", "navy", "chartreuse3"), domain = c("primary", "secondary", "river"))
+```
+# Zoom in and screenshot for node-based maps
+```{r zoom, echo=F, message=F, warnings=F, fig.height=7, fig.width=10}
+
+Stations %>% leaflet() %>% 
+  addProviderTiles(providers$Esri.WorldImagery) %>% 
+  addCircleMarkers(~ Longitude, ~ Latitude, 
+                   color = ~pal(Type),
+                   radius=6,
+                   stroke = FALSE, 
+                   fillOpacity = 0.5,
+                   label= ~StationId,
+                   labelOptions = labelOptions(noHide = T,
+                                               direction = 'top',
+                                               offset=c(0,-5),
+                                               opacity=0.7)) %>% 
+  addScaleBar() %>% 
+  addLegend(pal = pal, values = ~Type, opacity = 1, title="Station type") %>% 
+  addMiniMap(zoomLevelFixed = 2, 
+             centerFixed=c(65, -150))
+
+
+```
+
+
+# Hidden labels
+## (Zoom in and screenshot for node-based maps)
+```{r nolab, echo=F, message=F, warnings=F, fig.height=6, fig.width=10}
+
+Stations %>% leaflet() %>% 
+  addProviderTiles(providers$Esri.WorldImagery) %>% 
+  addCircleMarkers(~ Longitude, ~ Latitude, 
+                   color = ~pal(Type),
+                   radius=6,
+                   stroke = FALSE, 
+                   fillOpacity = 0.5,
+                   label= ~StationId) %>% 
+  addScaleBar() %>% 
+  addLegend(pal = pal, values = ~Type, opacity = 1, title="Station type") %>% 
+  addMiniMap(zoomLevelFixed = 2, 
+             centerFixed=c(65, -150))
+
+
+```
+
+#Primary and river only
+##(zoom in and screenshot for node-based maps)
+```{r zoom2, echo=F, message=F, warnings=F, fig.height=7, fig.width=10}
+Stations %>% 
+  filter(Type!="secondary") %>% 
+  leaflet() %>% 
+  addProviderTiles(providers$Esri.WorldImagery) %>% 
+  addCircleMarkers(~ Longitude, ~ Latitude, 
+                   color = ~pal(Type),
+                   radius=6,
+                   stroke = FALSE, 
+                   fillOpacity = 0.5,
+                   label= ~StationId,
+                   labelOptions = labelOptions(noHide = T,
+                                               direction = 'top',
+                                               offset=c(0,-5),
+                                              opacity=0.7,
+                                               style = list(
+                                                 "font-style" = "bold",
+                                                 "font-size" = "14px"))) %>% 
+  addScaleBar() %>% 
+  addLegend(pal = pal, values = ~Type, opacity = 1, title="Station type") %>% 
+  addMiniMap(zoomLevelFixed = 2, 
+             centerFixed=c(65, -150))
+
+```
+
+#Primary only
+##(zoom in and screenshot for node-based maps)
+
+```{r zoom3, echo=F, message=F, warnings=F, fig.height=5, fig.width=10}
+Stations %>% 
+  filter(Type=="primary") %>% 
+  leaflet() %>% 
+  addProviderTiles(providers$Esri.WorldImagery) %>% 
+  addCircleMarkers(~ Longitude, ~ Latitude, 
+                   color = ~pal(Type),
+                   radius=6,
+                   stroke = FALSE, 
+                   fillOpacity = 0.5,
+                   label= ~StationId,
+                   labelOptions = labelOptions(noHide = T,
+                                               direction = 'top',
+                                               offset=c(0,-5),
+                                              opacity=0.7,
+                                               style = list(
+                                                 "font-style" = "bold",
+                                                 "font-size" = "14px"))) %>% 
+  addScaleBar() %>% 
+  addMiniMap(zoomLevelFixed = 2, 
+             centerFixed=c(65, -150))
+
+```
+
+
+#Blank, zoomable map for labelling in PP, Inkscape etc: SQUARE
+```{r blankmap, echo=F, message=F, warnings=F, fig.height=6, fig.width=6}
+
+Nodes <- read_csv("BLE_LTER_Nodes.csv")
+  
+Nodes %>% leaflet() %>% 
+  addProviderTiles(providers$Esri.WorldImagery) %>% 
+  addCircleMarkers(~ Longitude, ~ Latitude, 
+                   stroke = F, 
+                   fillOpacity = 0.0,
+                   label= F) %>% 
+  addScaleBar() %>% 
+  addMiniMap(zoomLevelFixed = 2, 
+             centerFixed=c(65, -150))
+
+```
+
+#Blank, zoomable map for labelling in PP, Inkscape etc: WIDE
+```{r blankmap_wide, echo=F, message=F, warnings=F, fig.width=11}
+
+Nodes %>% leaflet() %>% 
+  addProviderTiles(providers$Esri.WorldImagery) %>% 
+  addCircleMarkers(~ Longitude, ~ Latitude, 
+                   stroke = F, 
+                   fillOpacity = 0.0,
+                   label= F) %>% 
+  addScaleBar() %>% 
+  addMiniMap(zoomLevelFixed = 2, 
+             centerFixed=c(65, -150))
+
+```
+
+
