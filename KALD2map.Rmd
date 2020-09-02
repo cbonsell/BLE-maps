@@ -48,7 +48,7 @@ Stations %>% leaflet() %>%
                                                opacity=1,
                                                style = list(
                                                  "font-style" = "bold",
-                                                 "font-size" = "14px",
+                                                 "font-size" = "12px",
                                                  "color"="white",
                                                  "background"="transparent",
                                                  "border"="none",
@@ -97,7 +97,7 @@ Stations %>% leaflet() %>%
                                                opacity=1,
                                                style = list(
                                                  "font-style" = "bold",
-                                                 "font-size" = "14px",
+                                                 "font-size" = "12px",
                                                  "color"="white",
                                                  "background"="transparent",
                                                  "border"="none",
